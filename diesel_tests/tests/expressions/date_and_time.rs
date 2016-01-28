@@ -33,11 +33,11 @@ fn now_executes_sql_function_now() {
     let before_today: Vec<i32> = has_timestamps.select(id)
         .filter(created_at.lt(now))
         .load(&connection)
-        .unwrap().collect();
+        .unwrap();
     let after_today: Vec<i32> = has_timestamps.select(id)
         .filter(created_at.gt(now))
         .load(&connection)
-        .unwrap().collect();
+        .unwrap();
     assert_eq!(vec![1], before_today);
     assert_eq!(vec![2], after_today);
 }
@@ -58,7 +58,7 @@ fn date_uses_sql_function_date() {
     let actual_data: Vec<_> = has_timestamps.select(id)
         .filter(date(created_at).eq(date(updated_at)))
         .load(&connection)
-        .unwrap().collect();
+        .unwrap();
     assert_eq!(expected_data, actual_data);
 }
 
@@ -78,7 +78,7 @@ fn time_is_deserialized_properly() {
 
     let actual_data: Vec<_> = has_time.select(time)
         .load(&connection)
-        .unwrap().collect();
+        .unwrap();
     assert_eq!(expected_data, actual_data);
 }
 

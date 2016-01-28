@@ -69,7 +69,6 @@ use self::schema::NewMigration;
 use self::schema::__diesel_schema_migrations::dsl::*;
 use {Connection, QueryResult};
 
-use std::collections::HashSet;
 use std::env;
 use std::path::{PathBuf, Path};
 
@@ -92,7 +91,7 @@ pub fn run_pending_migrations<Conn: Connection>(conn: &Conn) -> Result<(), RunMi
     let migrations_dir = try!(find_migrations_directory());
     let all_migrations = try!(migrations_in_directory(&migrations_dir));
     let pending_migrations = all_migrations.into_iter().filter(|m| {
-        !already_run.contains(m.version())
+        !already_run.contains(&m.version().to_string())
     });
     run_migrations(conn, pending_migrations)
 }
@@ -145,10 +144,9 @@ pub fn create_schema_migrations_table_if_needed<Conn: Connection>(conn: &Conn) -
     })
 }
 
-fn previously_run_migration_versions<Conn: Connection>(conn: &Conn) -> QueryResult<HashSet<String>> {
+fn previously_run_migration_versions<Conn: Connection>(conn: &Conn) -> QueryResult<Vec<String>> {
     __diesel_schema_migrations.select(version)
         .load(conn)
-        .map(|r| r.collect())
 }
 
 fn latest_run_migration_version<Conn: Connection>(conn: &Conn) -> QueryResult<String> {

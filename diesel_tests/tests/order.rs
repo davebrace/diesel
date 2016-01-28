@@ -12,7 +12,7 @@ fn order_by_column() {
         NewUser::new("Jim", None),
     ];
     let data: Vec<User> =
-        insert(&data).into(users).get_results(&conn).unwrap().collect();
+        insert(&data).into(users).get_results(&conn).unwrap();
     let sean = &data[0];
     let tess = &data[1];
     let jim = &data[2];
@@ -22,7 +22,7 @@ fn order_by_column() {
         User::new(sean.id, "Sean"),
         User::new(tess.id, "Tess"),
     ];
-    let data: Vec<_> = users.order(name).load(&conn).unwrap().collect();
+    let data: Vec<_> = users.order(name).load(&conn).unwrap();
     assert_eq!(expected_data, data);
 
     let aaron = insert(&NewUser::new("Aaron", None)).into(users)
@@ -33,7 +33,7 @@ fn order_by_column() {
         User::new(sean.id, "Sean"),
         User::new(tess.id, "Tess"),
     ];
-    let data: Vec<_> = users.order(name.asc()).load(&conn).unwrap().collect();
+    let data: Vec<_> = users.order(name.asc()).load(&conn).unwrap();
     assert_eq!(expected_data, data);
 }
 
@@ -48,7 +48,7 @@ fn order_by_descending_column() {
         NewUser::new("Jim", None),
     ];
     let data: Vec<User> = insert(&data).into(users)
-        .get_results(&conn).unwrap().collect();
+        .get_results(&conn).unwrap();
     let sean = &data[0];
     let tess = &data[1];
     let jim = &data[2];
@@ -58,7 +58,7 @@ fn order_by_descending_column() {
         User::new(sean.id, "Sean"),
         User::new(jim.id, "Jim"),
     ];
-    let data: Vec<_> = users.order(name.desc()).load(&conn).unwrap().collect();
+    let data: Vec<_> = users.order(name.desc()).load(&conn).unwrap();
     assert_eq!(expected_data, data);
 
     let aaron = insert(&NewUser::new("Aaron", None)).into(users)
@@ -69,6 +69,6 @@ fn order_by_descending_column() {
         User::new(jim.id, "Jim"),
         User::new(aaron.id, "Aaron"),
     ];
-    let data: Vec<_> = users.order(name.desc()).load(&conn).unwrap().collect();
+    let data: Vec<_> = users.order(name.desc()).load(&conn).unwrap();
     assert_eq!(expected_data, data);
 }

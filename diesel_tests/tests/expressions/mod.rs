@@ -160,7 +160,7 @@ fn function_with_multiple_arguments() {
 
     let expected_data = vec!["black".to_string(), "Tess".to_string()];
     let data: Vec<String> = users.select(coalesce(hair_color, name))
-        .load(&connection).unwrap().collect();
+        .load(&connection).unwrap();
 
     assert_eq!(expected_data, data);
 }
